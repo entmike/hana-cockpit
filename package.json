@@ -1,0 +1,26 @@
+{
+  "name": "hana-cockpit",
+  "version": "1.0.1",
+  "description": "HANA Cockpit",
+  "main": "index.js",
+  "scripts": {
+    "start": "node run.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/entmike/hana-cockpit.git"
+  },
+  "keywords": [
+    "HANA"
+  ],
+  "author": "Mike Howles",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/entmike/hana-cockpit/issues"
+  },
+  "homepage": "https://github.com/entmike/hana-cockpit#readme",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1"
+  }
+}
