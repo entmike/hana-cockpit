@@ -58,12 +58,28 @@ let tenantDBName = process.env.VUE_APP_HANA_TENANTDBNAME || 'HXE';
 import axios from 'axios';
 export default {
   name: 'Admin',
+  sockets : {
+    connect () {
+      console.log("Admin Connection established.");
+    },
+    createuser (data){
+      console.log(data);
+    },
+    disconnect () {
+      console.log("Admin Connection ended.");
+    }
+  },
   props : { },
   methods : {
     saveSomething(item){
-       if(!this.$refs[item.option][0].$refs.form.validate()){
+      if(!this.$refs[item.option][0].$refs.form.validate()){
          return;
-       }
+      }
+      if(item.socket){
+        this.$socket.emit('createuser',item.data);
+        console.log(this.sockets);
+        return;
+      }
       this.loading=true;
       this.loadingMessage=item.loadingMessage;
       axios.post(`${process.env.VUE_APP_HANA_APP_BACKEND}${item.endpoint}`,item.data).then(res=>{
@@ -89,9 +105,7 @@ export default {
       item.dialog=true;
     }
   },
-  mounted : () => {
-    
-  },
+  mounted : () => { },
   data: () => ({
     loading : false,
     loadingMessage : '',
@@ -100,6 +114,7 @@ export default {
     adminOptions : [
       {
         option : "Create a User",
+        socket : true,
         description : "Create an SAP HANA DB User",
         loadingMessage : "Creating User...",
         dialog : false,

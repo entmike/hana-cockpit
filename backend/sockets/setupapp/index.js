@@ -1,7 +1,8 @@
-module.exports = (io)=>{
+module.exports = (io,socket)=>{
     return (data)=>{
         if(data.backendPassword != process.env.BACKEND_PASSWORD) console.log(`Bad password.`);
         console.log(data);
-        io.emit("setupapp", data);
+        console.log(socket.id);
+        socket.emit("createuser", "Responding from create user");
     };
 };

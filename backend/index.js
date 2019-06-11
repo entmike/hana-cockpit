@@ -11,8 +11,8 @@ module.exports = {
             origin : '*:*'
         });
         io.on('connection', function(socket){
-            console.log(socket);
-            socket.on('setupapp', require('./sockets/setupapp')(io));
+            console.log("New Connection established.");
+            socket.on('createuser', require('./sockets/setupapp')(io,socket));
             socket.on('disconnect', data=>{
                 console.log('Connection terminated.');
             });
