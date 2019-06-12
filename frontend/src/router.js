@@ -10,6 +10,13 @@ export default new Router({
       path: '/',
       name: 'Administration',
       component: Admin
+    },{
+      path: '/sql',
+      name: 'sql',
+      // route level code-splitting
+      // this generates a separate chunk (sql.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ './views/SQL.vue')
     }
   ]
 })
