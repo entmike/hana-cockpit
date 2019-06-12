@@ -21,6 +21,7 @@ module.exports = {
         app.use('/api/enableHDI', require('./api/enableHDI'));
         app.use('/api/createContainer', require('./api/createContainer'));
         app.use('/api/createUser', require('./api/createUser'));
+        app.use('/api/resetPassword', require('./api/resetPassword'));
         app.use('/api/grantHDIRole', require('./api/grantHDIRole'));
         app.use('/api/mapExternalHost', require('./api/mapExternalHost'));
 

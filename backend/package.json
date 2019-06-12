@@ -5,8 +5,8 @@
   "description": "Backend API for HANA Cockpit",
   "main": "index.js",
   "scripts": {
-    "prod": "node server.js",
-    "dev": "nodemon server.js"
+    "prod": "node run.js",
+    "dev": "nodemon run.js"
   },
   "author": "",
   "license": "ISC",

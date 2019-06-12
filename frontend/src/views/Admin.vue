@@ -45,6 +45,7 @@
 
 <script>
 import CreateUser from '@/CreateUser';
+import ResetPassword from '@/ResetPassword';
 import EnableHDI from '@/EnableHDI';
 import CreateContainer from '@/CreateContainer';
 import GrantHDIRole from '@/GrantHDIRole';
@@ -114,7 +115,7 @@ export default {
     adminOptions : [
       {
         option : "Create a User",
-        socket : true,
+        // socket : true,
         description : "Create an SAP HANA DB User",
         loadingMessage : "Creating User...",
         dialog : false,
@@ -123,7 +124,22 @@ export default {
         endpoint : '/api/createUser',
         defaults : {
           dbServerNode : tenantDBNode,
-          authUser : authUser
+          authUser : authUser,
+          mustChange : false
+        }
+      },{
+        option : "Reset User Password",
+        // socket : true,
+        description : "Reset SAP HANA DB User Password",
+        loadingMessage : "Resetting User Password...",
+        dialog : false,
+        component : ResetPassword,
+        data : { },
+        endpoint : '/api/resetPassword',
+        defaults : {
+          dbServerNode : tenantDBNode,
+          authUser : authUser,
+          mustChange : false
         }
       },{
         option : "HDI Enable a Tenant DB",

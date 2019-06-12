@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
@@ -11,12 +12,12 @@ router.options('*',cors());
 router.post('/',cors(),(req,res)=>{
     var pass = true;
     var missing = [];
-    `authUser,authPassword,dbServerNode,user,userPassword`.split(',').map(e=>{
-        if(!req.body || !req.body[e]) {
+    `authUser,authPassword,dbServerNode,user,userPassword,mustChange`.split(',').map(e=>{
+        if(!req.body || req.body[e]===undefined) {
             pass = false;
             missing.push(e);
         }
-    })
+    });
     if(!pass){
         res.status(400);
         res.json({
@@ -43,17 +44,17 @@ router.post('/',cors(),(req,res)=>{
         }else{
             new Promise((resolve,reject)=>{
                 let mc = '';
-                if(req.body.mustChange==false) mc = ' NO FORCE_FIRST_PASSWORD_CHANGE';                
-                conn.exec(`CREATE USER ${user} PASSWORD "${userPassword}"${mc};`, null, (err, results)=>{ 
+                if(req.body.mustChange==false) mc = ' NO FORCE_FIRST_PASSWORD_CHANGE';
+                conn.exec(`ALTER USER ${user} PASSWORD "${userPassword}"${mc}`, null, (err, results)=>{ 
                     if (err) return reject(err);
                     resolve(results);
                 });
             }).then(data=>{
-                console.log(`Done creating ${user}.`);
+                console.log(`Done resetting ${user}.`);
                 res.status(200);
                 res.json({
                     success : true,
-                    message : `Done creating ${user}.`
+                    message : `Done resetting ${user}.`
                 });
                 res.end();
             })

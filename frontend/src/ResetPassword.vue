@@ -50,7 +50,7 @@
 
 <script>
 export default {
-    name: 'CreateUser',
+    name: 'ResetPassword',
     props : [ 'value' ],
     data: () => ({
       valid: true,
