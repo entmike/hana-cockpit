@@ -6,11 +6,5 @@ module.exports = {
         app.set('port', options.port || 29999);
         app.use(express.static(path.join(__dirname, './dist')));
         return app;
-    },
-    dev (options) {
-        let app = express();
-        app.set('port', options.port || 29999);
-        app.use(express.static(path.join(__dirname, './dist-dev')));
-        return app;
     }
 }

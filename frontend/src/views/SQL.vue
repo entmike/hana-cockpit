@@ -1,7 +1,7 @@
 <template>
     <div>
      <LoadingDialog v-model="loading" message="Loading, please wait..."/>
-     <ErrorDialog v-model="error" :message="errorMessage"/>
+     <ErrorDialog v-model="error.error" :message="error.message" :details="error.details"/>
      <v-form ref="form" v-model="valid" lazy-validation>
          <v-card>
             <v-card-text>
@@ -64,8 +64,11 @@
     data: () => ({
       valid: true,
       loading : false,
-      error : false,
-      errorMessage : '',
+      error : {
+        error : false,
+        message : '',
+        details : ''
+      },
       requiredRules: [
         v => !!v || 'Field is required'
       ],
@@ -103,8 +106,9 @@ SELECT CURRENT_USER FROM DUMMY;
           this.results = res.data;
         }, err=> {
           this.loading = false;
-          this.error = true;
-          this.errorMessage = err.response.data;
+          this.error.error = true;
+          this.error.message = 'An error occurred when trying to execute the SQL Statement';
+          this.error.details = err.response.data;
         }).catch(err=>{
           alert(`An error occured communicating with the backend.
           ${err}`);

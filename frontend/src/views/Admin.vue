@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ErrorDialog v-model="error.error" :message="error.message" :details="error.details"/>
     <v-dialog v-model="complete" scrollable max-width="300px">
       <v-card>
         <v-card-title>{{apiResults.status}}</v-card-title>
@@ -22,7 +23,7 @@
             <v-list-tile-title v-html="item.option"></v-list-tile-title>
             <v-list-tile-sub-title v-html="item.description"></v-list-tile-sub-title>
           </v-list-tile-content>
-          <v-dialog v-model="item.dialog">
+          <v-dialog v-model="item.dialog" width="80%">
           <v-card>
             <v-toolbar>
               <v-toolbar-title>{{item.option}}</v-toolbar-title>
@@ -50,6 +51,8 @@ import EnableHDI from '@/EnableHDI';
 import CreateContainer from '@/CreateContainer';
 import GrantHDIRole from '@/GrantHDIRole';
 import MapExternalHost from '@/MapExternalHost';
+import ErrorDialog from '@/ErrorDialog';
+
 let systemDBNode = process.env.VUE_APP_HANA_SYSTEMNODE || 'localhost:39017';
 let tenantDBNode = process.env.VUE_APP_HANA_TENANTNODE || 'localhost:39041';
 let authUser = process.env.VUE_APP_HANA_AUTHUSER || 'SYSTEM';
@@ -93,11 +96,10 @@ export default {
         }
       }, err=> {
         this.loading=false;
-        this.complete=true;
-        this.apiResults={
-          status : "Error",
-          message : (err.response)?(err.response.data)?err.response.data:err.response:err
-        }
+        // this.complete=true;
+        this.error.error=true;
+        this.error.message = `Could not successfully complete the task '${item.option}.'`;
+        this.error.details = (err.response)?(err.response.data)?err.response.data:err.response:err
       });
     },
     openDialog(item){
@@ -112,6 +114,11 @@ export default {
     loadingMessage : '',
     apiResults : {},
     complete : false,
+    error : {
+      error : false,
+      message : null,
+      details : null
+    },    
     adminOptions : [
       {
         option : "Create a User",
@@ -198,7 +205,7 @@ export default {
     ]
   }),
   components: {
-    
+    ErrorDialog
   }
 }
 </script>

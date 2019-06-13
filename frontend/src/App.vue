@@ -2,7 +2,7 @@
   <div>
     <v-app v-if="config.status==undefined">
       <LoadingDialog v-model="loading" message="Loading, please wait..."/>
-      <ErrorDialog v-model="error" :message="errorMessage"/>
+      <ErrorDialog v-model="error" :message="errorMessage" :details="errorDetails"/>
     </v-app>
     <RunningApp v-if="config.status == 'configured'"/>
     <SetupWizard v-if="config.status == 'initial'"/>
@@ -26,6 +26,7 @@
       return {
         loading : true,
         error : false,
+        errorDetails : null,
         errorMessage : '',
         config : {}
       };
@@ -40,7 +41,8 @@
         },err=>{
           this.loading = false;
           this.error = true;
-          this.errorMessage = (err.response)?err.response.data:err;
+          this.errorDetails = (err.response)?err.response.data:err;
+          this.errorMessage = "An Error occured while trying to communcate with the backend.";
         });
       }
     },
