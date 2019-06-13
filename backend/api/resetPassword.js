@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
@@ -62,7 +61,6 @@ router.post('/',cors(),(req,res)=>{
                 console.log(`An error occured while trying to create user:\n${JSON.stringify(err)}`);
                 res.status(500);
                 res.json(err);
-                console.log(err);
                 res.end();
             });
         }

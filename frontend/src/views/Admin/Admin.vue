@@ -25,7 +25,7 @@
           </v-list-tile-content>
           <v-dialog v-model="item.dialog" width="80%">
           <v-card>
-            <v-toolbar>
+            <v-toolbar flat dark color="primary">
               <v-toolbar-title>{{item.option}}</v-toolbar-title>
             </v-toolbar>
             <v-card-title><span>{{item.description}}</span></v-card-title>
@@ -33,8 +33,9 @@
               <component :ref="item.option" v-bind:is="item.component" v-model="item.data"></component>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="primary" flat @click="item.dialog=false">Close</v-btn>
-              <v-btn color="blue darken-1" flat @click="saveSomething(item)">Save</v-btn>
+              <v-btn color="error" flat @click="item.dialog=false">Close</v-btn>
+              <v-spacer />
+              <v-btn color="primary" flat @click="saveSomething(item)">Run</v-btn>
             </v-card-actions>
           </v-card>
           </v-dialog>
@@ -45,13 +46,13 @@
 </template>
 
 <script>
-import CreateUser from '@/CreateUser';
-import ResetPassword from '@/ResetPassword';
-import EnableHDI from '@/EnableHDI';
-import CreateContainer from '@/CreateContainer';
-import GrantHDIRole from '@/GrantHDIRole';
-import MapExternalHost from '@/MapExternalHost';
-import ErrorDialog from '@/ErrorDialog';
+import CreateUser from '@/views/Admin/CreateUser';
+import ResetPassword from '@/views/Admin/ResetPassword';
+import EnableHDI from '@/views/Admin/EnableHDI';
+import CreateContainer from '@/views/Admin/CreateContainer';
+import GrantHDIRole from '@/views/Admin/GrantHDIRole';
+import MapExternalHost from '@/views/Admin/MapExternalHost';
+import ErrorDialog from '@/components/ErrorDialog';
 
 let systemDBNode = process.env.VUE_APP_HANA_SYSTEMNODE || 'localhost:39017';
 let tenantDBNode = process.env.VUE_APP_HANA_TENANTNODE || 'localhost:39041';

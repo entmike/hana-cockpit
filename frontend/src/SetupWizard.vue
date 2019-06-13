@@ -82,8 +82,8 @@
 
 <script>
 import axios from 'axios';
-import LoadingDialog from '@/LoadingDialog';
-import ErrorDialog from '@/ErrorDialog';
+import LoadingDialog from '@/components/LoadingDialog';
+import ErrorDialog from '@/components/ErrorDialog';
 export default {
   name: 'SetupWizard',
   components : { LoadingDialog, ErrorDialog },

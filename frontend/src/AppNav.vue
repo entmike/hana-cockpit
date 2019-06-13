@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar app :color="appState.color" dark>
+    <v-toolbar flat app :color="appState.color" dark>
         <v-toolbar-title>HANA Cockpit</v-toolbar-title>
         <template v-for="(item,index) in items">
             <v-btn v-if="typeof item.link === 'undefined'" :key=index flat :to="'/' + item.title">{{item.title}}</v-btn>

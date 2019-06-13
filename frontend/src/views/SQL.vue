@@ -53,8 +53,8 @@
 <script>
   let tenantDBNode = process.env.VUE_APP_HANA_TENANTNODE || 'localhost:39041';
   let authUser = process.env.VUE_APP_HANA_AUTHUSER || 'SYSTEM';
-  import LoadingDialog from '@/LoadingDialog';
-  import ErrorDialog from '@/ErrorDialog';
+  import LoadingDialog from '@/components/LoadingDialog';
+  import ErrorDialog from '@/components/ErrorDialog';
   import axios from 'axios';
   import 'codemirror/mode/sql/sql.js'
   import 'codemirror/theme/solarized.css'

@@ -12,8 +12,8 @@
 <script>
   import SetupWizard from '@/SetupWizard';
   import RunningApp from '@/RunningApp';
-  import LoadingDialog from '@/LoadingDialog';
-  import ErrorDialog from '@/ErrorDialog';
+  import LoadingDialog from '@/components/LoadingDialog';
+  import ErrorDialog from '@/components/ErrorDialog';
   import MissingEnv from '@/MissingEnv';
 
   import axios from 'axios';

@@ -44,7 +44,7 @@ router.post('/',cors(),(req,res)=>{
             return resolve(conn);
         })
     }).then(conn=>{
-        console.log(`Connected as ${req.body.authPassword}.`);
+        console.log(`Connected as ${req.body.authUser}.`);
         return Promise.all([
             new Promise((resolve,reject)=>{
                 conn.exec(`CREATE USER ${hdiContainer}_USER_DT PASSWORD "${hdiDTPassword}" NO FORCE_FIRST_PASSWORD_CHANGE;`,null,(err,results)=>{
