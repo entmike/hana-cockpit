@@ -8,7 +8,7 @@ RUN npm config set @sap:registry https://npm.sap.com
 RUN npm i -g @vue/cli
 
 LABEL Maintainer="Mike Howles <mike.howles@gmail.com>"
-ENV CONFIG=/config
+ENV CONFIG=/app/config
 ENV VUE_APP_HANA_APP_BACKEND=/backend
 ENV BACKEND_PORT=9999
 
@@ -16,10 +16,12 @@ ENV BACKEND_PORT=9999
 RUN apt-get update && apt-get install -y nginx
 
 # Configure nginx and startup
-COPY ./server.conf /etc/nginx/conf.d/default.conf
+COPY ./docker-files/server.conf /etc/nginx/conf.d/default.conf
 
 # Copy files
-COPY ./ /app/
+COPY ./frontend /app/frontend
+COPY ./backend /app/backend
+COPY ./docker-files/app /app
 RUN chmod +x /app/startup.sh
 
 # Force rebuild of @sap/hana-client since there are binary bindings
