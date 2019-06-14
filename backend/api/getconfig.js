@@ -37,7 +37,7 @@ router.post('/',cors(),(req,res)=>{
                 config.config = JSON.parse(data);
                 return resolve(config);
             }catch(e){
-                reject(e);
+                reject("Could not parse configuration file's JSON content.");
             }
         })
     }).then(data=>{
@@ -47,10 +47,8 @@ router.post('/',cors(),(req,res)=>{
         res.json(config);
         res.end();
     }).catch(err=>{
-        config.status = "error"
-        config.error = `An error occured while parsing file '${process.env.CONFIG}/app.json':  ${err}`;
         res.status(500);
-        res.json(config);
+        res.json(err);
         res.end();
     });
 });

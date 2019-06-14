@@ -81,8 +81,7 @@ SELECT CURRENT_USER FROM DUMMY;
       },
       headers: [],
       results: [],
-      rowsPerPage : "-1",
-      loading : false
+      rowsPerPage : "-1"
     }),
     computed : {
         resultsComputed (){

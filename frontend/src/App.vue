@@ -2,7 +2,7 @@
   <div>
     <v-app v-if="config.status==undefined">
       <LoadingDialog v-model="loading" message="Loading, please wait..."/>
-      <ErrorDialog v-model="error" :message="errorMessage" :details="errorDetails"/>
+      <ErrorDialog v-model="error" :message="errorMessage" :details="errorDetails" :allowClose="errorAllowClose"/>
     </v-app>
     <RunningApp v-if="config.status == 'configured'"/>
     <SetupWizard v-if="config.status == 'initial'"/>
@@ -28,6 +28,7 @@
         error : false,
         errorDetails : null,
         errorMessage : '',
+        errorAllowClose : true,
         config : {}
       };
     },
@@ -42,7 +43,8 @@
           this.loading = false;
           this.error = true;
           this.errorDetails = (err.response)?err.response.data:err;
-          this.errorMessage = "An Error occured while trying to communcate with the backend.";
+          this.errorMessage = "An Error occured while trying to read the application configuration.  Please ensure your application configuration is pointing to a valid directory.";
+          this.errorAllowClose = false;
         });
       }
     },

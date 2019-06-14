@@ -12,7 +12,7 @@
                 <span v-if="isJson==false">{{details}}</span>
             </v-card-text>
             <v-card-actions>
-                <v-btn flat color="primary" @click="clickHandler">OK</v-btn>
+                <v-btn v-if="allowClose" flat color="primary" @click="clickHandler">OK</v-btn>
                 <v-btn flat color="error" @click="toggleHandler" primary v-if="this.details">{{this.btnShowDetails}}</v-btn>
             </v-card-actions>
         </v-card>
@@ -63,6 +63,10 @@ export default {
         details : {
             type : [Error,Object,String],
             default : null
+        },
+        allowClose : {
+            type : [Boolean],
+            default : true
         },
         message : {
             type : [String],
