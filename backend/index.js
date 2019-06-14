@@ -18,6 +18,7 @@ module.exports = {
             });
         });
         app.use('/api/getconfig', require('./api/getconfig'));
+        app.use('/api/saveconfig', require('./api/saveconfig'));
         app.use('/api/sql', require('./api/sql'));
         app.use('/api/enableHDI', require('./api/enableHDI'));
         app.use('/api/createContainer', require('./api/createContainer'));

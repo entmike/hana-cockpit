@@ -11,6 +11,10 @@ export default new Router({
       name: 'Administration',
       component: Admin
     },{
+      path: '/Preferences',
+      name: 'Preferences',
+      component: () => import('./views/Preferences/Preferences.vue')
+    },{
       path: '/sql',
       name: 'sql',
       // route level code-splitting

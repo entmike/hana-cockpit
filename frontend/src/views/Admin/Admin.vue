@@ -54,12 +54,6 @@ import GrantHDIRole from '@/views/Admin/GrantHDIRole';
 import MapExternalHost from '@/views/Admin/MapExternalHost';
 import ErrorDialog from '@/components/ErrorDialog';
 
-let systemDBNode = process.env.VUE_APP_HANA_SYSTEMNODE || 'localhost:39017';
-let tenantDBNode = process.env.VUE_APP_HANA_TENANTNODE || 'localhost:39041';
-let authUser = process.env.VUE_APP_HANA_AUTHUSER || 'SYSTEM';
-let hdiAdminUser = process.env.VUE_APP_HANA_HDIADMINUSER || 'HDI_ADMIN';
-let tenantDBName = process.env.VUE_APP_HANA_TENANTDBNAME || 'HXE';
-
 import axios from 'axios';
 export default {
   name: 'Admin',
@@ -109,8 +103,15 @@ export default {
       item.dialog=true;
     }
   },
-  mounted : () => { },
-  data: () => ({
+  mounted () { },
+  data () {
+    let systemDBNode = this.$store.getters.config.config.systemDbNode || process.env.VUE_APP_HANA_SYSTEMNODE || 'localhost:39017';
+    let tenantDBNode = this.$store.getters.config.config.tenantDbNode || process.env.VUE_APP_HANA_TENANTNODE || 'localhost:39041';
+    let tenantDBName = this.$store.getters.config.config.tenantDbName || process.env.VUE_APP_HANA_TENANTDBNAME || 'HXE'; 
+    let hdiAdminUser = this.$store.getters.config.config.hdiAdminUser || process.env.VUE_APP_HANA_HDIADMINUSER || 'HDI_ADMIN';
+    let authUser = this.$store.getters.config.config.authUser || process.env.VUE_APP_HANA_AUTHUSER || 'SYSTEM';  
+ 
+    return {
     loading : false,
     loadingMessage : '',
     apiResults : {},
@@ -204,7 +205,7 @@ export default {
         }
       }
     ]
-  }),
+  };},
   components: {
     ErrorDialog
   }

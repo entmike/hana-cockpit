@@ -9,19 +9,17 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended:true}));
 router.options('*',cors());
 
-let config = {
-    status : 'initial',
-    config : {}
-};
+let config = { };
 
 router.post('/',cors(),(req,res)=>{
     let missing = [];
     for(let field in requiredEnv) if(!process.env[field]) missing.push({field:field,desc:requiredEnv[field]});
     if(missing.length>0) {
-        config.status = "missingenv"
-        res.status(200);
-        config.missing = missing;
-        res.json(config);
+        res.status(400);
+        res.json({
+            status : "missingenv",
+            missing : missing
+        });
         return res.end();
     }
     // Open Config File
@@ -41,8 +39,9 @@ router.post('/',cors(),(req,res)=>{
             }
         })
     }).then(data=>{
-        config.status = (config.config.configured)?"configured":"initial";
+        config.location = `${process.env.CONFIG}/app.json`;
         delete config.config.secret;
+        console.log(config);
         res.status(200);
         res.json(config);
         res.end();

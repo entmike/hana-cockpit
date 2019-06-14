@@ -115,7 +115,7 @@ SELECT CURRENT_USER FROM DUMMY;
       }
     },
     mounted(){
-      
+      console.log(this.$store.getters.config);
     }
   }
 </script>

@@ -6,6 +6,7 @@
             <v-btn v-else :key=index flat :to="'/' + item.link">{{item.title}}</v-btn>
         </template>
         <v-spacer />
+        <v-btn flat to="/Preferences">Preferences</v-btn>
     </v-toolbar>
 </template>
 
