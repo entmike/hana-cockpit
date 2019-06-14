@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" persistent>
+    <v-dialog v-model="value" persistent :width="width">
         <v-card>
             <v-card-title primary-title>
                 <h3 class="headline mb-0" style="color:red;">{{title}}</h3>
@@ -60,6 +60,10 @@ export default {
         }
     },
     props : {
+        width : {
+            type : [Number, String],
+            default : "70%"
+        },
         details : {
             type : [Error,Object,String],
             default : null
