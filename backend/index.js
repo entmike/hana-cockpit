@@ -26,6 +26,7 @@ module.exports = {
         app.use('/api/resetPassword', require('./api/resetPassword'));
         app.use('/api/grantHDIRole', require('./api/grantHDIRole'));
         app.use('/api/mapExternalHost', require('./api/mapExternalHost'));
+        app.use('/api/deployDB', require('./api/deployDB'));
 
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({

@@ -23,6 +23,7 @@ export default {
             drawer: false,
             items: [
                 { title: 'Administration', link: '' },
+                { title: 'Deploy', link: 'deploy' },
                 { title: 'SQL', link: 'sql' }
             ]
         };

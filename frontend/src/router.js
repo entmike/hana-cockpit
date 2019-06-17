@@ -15,6 +15,10 @@ export default new Router({
       name: 'Preferences',
       component: () => import('./views/Preferences/Preferences.vue')
     },{
+      path: '/Deploy',
+      name: 'Deploy',
+      component: () => import('./views/Deploy/Deploy.vue')
+    },{
       path: '/sql',
       name: 'sql',
       // route level code-splitting
