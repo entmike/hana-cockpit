@@ -2,11 +2,11 @@
   <div>
     <ErrorDialog v-model="error.error" :message="error.message" :details="error.details"/>
     <LoadingDialog v-model="loading" message="Loading, please wait..."/>
-    <v-dialog v-model="complete" scrollable max-width="300px">
+    <v-dialog v-model="complete" scrollable width="70%">
       <v-card>
         <v-card-title>{{apiResults.status}}</v-card-title>
         <v-divider></v-divider>
-        <v-card-text>{{apiResults.message}}</v-card-text>
+        <v-card-text><pre class='terminal'>{{apiResults.message}}</pre></v-card-text>
       </v-card>
     </v-dialog>
     <v-list two-line>
@@ -102,12 +102,11 @@ export default {
   },
   mounted () { },
   data () {
-    let systemDBNode = this.$store.getters.config.config.systemDbNode || process.env.VUE_APP_HANA_SYSTEMNODE || 'localhost:39017';
-    let tenantDBNode = this.$store.getters.config.config.tenantDbNode || process.env.VUE_APP_HANA_TENANTNODE || 'localhost:39041';
-    let tenantDBName = this.$store.getters.config.config.tenantDbName || process.env.VUE_APP_HANA_TENANTDBNAME || 'HXE'; 
-    let hdiAdminUser = this.$store.getters.config.config.hdiAdminUser || process.env.VUE_APP_HANA_HDIADMINUSER || 'HDI_ADMIN';
-    let authUser = this.$store.getters.config.config.authUser || process.env.VUE_APP_HANA_AUTHUSER || 'SYSTEM';  
- 
+    let dbHost = this.$store.getters.config.config.deployDbHost || process.env.VUE_APP_HANA_DEPLOYDBHOST || 'localhost';
+    let dbPort = this.$store.getters.config.config.deployDbPort || process.env.VUE_APP_HANA_DEPLOYDBPORT || '39041';
+    let dbName = this.$store.getters.config.config.deployTenantDb || process.env.VUE_APP_HANA_DEPLOYTENANTDB || 'HXE'; 
+    let targetContainer = this.$store.getters.config.config.deployTargetContainer || process.env.VUE_APP_HANA_DEPLOYTARGETCONTAINER || 'CONTAINER_NAME'; 
+
     return {
     loading : false,
     loadingMessage : '',
@@ -133,8 +132,12 @@ export default {
         },
         fileFields : ["dbZip"],
         defaults : {
-          dbServerNode : tenantDBNode,
-          authUser : authUser
+          dbServerHost : dbHost,
+          dbServerPort : dbPort,
+          tenantDB : dbName,
+          hdiContainer : targetContainer,
+          hdiDTUser : `${targetContainer}_USER_DT`,
+          hdiRTUser : `${targetContainer}_USER_RT`
         }
       }
     ]
@@ -144,3 +147,15 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .terminal {
+    background-color: #222;
+    color: #eee;
+    padding : 5px;
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  }
+</style>

@@ -3,9 +3,21 @@
   <v-form ref="form" v-model="valid" lazy-validation>
     <v-layout row>
       <v-text-field
-        v-model="value.dbServerNode"
+        v-model="value.dbServerHost"
         :rules="requiredRules"
-        label="DB Server Node"
+        label="DB Server Host"
+        required
+      />
+      <v-text-field
+        v-model="value.dbServerPort"
+        :rules="requiredRules"
+        label="DB Server Port"
+        required
+      />
+      <v-text-field
+        v-model="value.tenantDB"
+        :rules="requiredRules"
+        label="Tenant DB Name"
         required
       />
       <v-text-field
@@ -45,6 +57,7 @@
         required
       />
     </v-layout>
+    <v-checkbox v-model="value.autoUndeploy" label="Auto Undeploy" />
     <UploadButton ref="dbZip" @file-update="update" title="Select a DB Module ZIP File"/>
   </v-form>
 </template>

@@ -12,7 +12,7 @@ router.post('/',cors(),(req,res)=>{
     var pass = true;
     var missing = [];
     `hdiDTUser,hdiDTPassword,dbServerNode,user`.split(',').map(e=>{
-        if(!req.body || !req.body[e]) {
+        if(!req.body || req.body[e]===undefined) {
             pass = false;
             missing.push(e);
         }

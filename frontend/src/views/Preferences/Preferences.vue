@@ -15,6 +15,11 @@
                 <v-text-field label="Default Tenant DB Name" v-model="config.config.tenantDbName"/>
                 <v-text-field label="Default HDI Admin User" v-model="config.config.hdiAdminUser"/>
                 <v-text-field label="Default Authorization User" v-model="config.config.authUser"/>
+                <v-divider/>
+                <v-text-field label="Default Deploy DB Host" v-model="config.config.deployDbHost" />
+                <v-text-field label="Default Deploy DB Port" v-model="config.config.deployDbPort" />
+                <v-text-field label="Default Deploy DB Tenant Name" v-model="config.config.deployTenantDB" />
+                <v-text-field label="Default Deploy Target Container" v-model="config.config.deployTargetContainer" />
             </v-card-text>
             <v-card-actions>
               <v-btn color="error" flat @click="resetConfig()">Reset</v-btn>

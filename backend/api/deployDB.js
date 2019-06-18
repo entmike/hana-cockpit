@@ -14,17 +14,8 @@ const path = require('path');
 router.options('*',cors());
 
 router.post('/',cors(),(req,res)=>{
-
-    /*const deploy = require('@sap/hdi-deploy')({
-
-    },{
-    
-    },()=>{
-        console.log("done");
-    },err=>{
-        console.log("error");
-    });
-    */
+    let workingdir = '';
+    let fields = {};
     return new Promise((resolve,reject)=>{
         let form = new formidable.IncomingForm();
         form.parse(req,(err,fields,file)=>{
@@ -38,7 +29,8 @@ router.post('/',cors(),(req,res)=>{
         console.log(data);
         let pass = true;
         let missing = [];
-        `dbServerNode,hdiContainer,hdiDTUser,hdiDTPassword,hdiRTUser,hdiRTPassword,dbZip`.split(',').map(e=>{
+        fields = data.fields;
+        `dbServerHost,dbServerPort,tenantDB,hdiContainer,hdiDTUser,hdiDTPassword,hdiRTUser,hdiRTPassword,dbZip`.split(',').map(e=>{
             if((!data.fields || !data.fields[e]) && 
             (!data.file || !data.file[e])) {
                 pass = false;
@@ -55,7 +47,7 @@ router.post('/',cors(),(req,res)=>{
         let zipfile = data.file.dbZip.path;
         let zip = new admzip(zipfile);
         let uuid = uuidv3(zipfile, uuidv3.DNS);
-        let workingdir = './tmp/' + uuid        
+        workingdir = './tmp/' + uuid        
         zip.extractAllTo(workingdir, true);
         return new Promise((resolve, reject)=>{
             fs.writeFile(`${workingdir}/package.json`,JSON.stringify({
@@ -64,7 +56,7 @@ router.post('/',cors(),(req,res)=>{
                     "@sap/hdi-deploy": "3.10.0"
                 },
                 "scripts": {
-                    "start": "node node_modules/@sap/hdi-deploy/deploy.js --auto-undeploy --exit"
+                    "start": "node node_modules/@sap/hdi-deploy/deploy.js"
                 }
             },null,2),err=>{
                 if(err) return reject(err);
@@ -73,17 +65,78 @@ router.post('/',cors(),(req,res)=>{
         });
     })
     .then(data=>{
-        return new Promise((resolve,reject)=>{
-            const { exec } = require('child_process');
-            exec('dir',(err,stdout,stderr)=>{
-                if(err) return reject(err);
-                resolve(stdout);
+        return new Promise((resolve,reject)=>{ 
+            const { spawn } = require('child_process');
+            const child = spawn('npm', ['i'], {
+                shell: true,
+                cwd: workingdir
             });
+            child.stdout.on('data',data=>{
+                console.log(data.toString());
+            });
+            child.stderr.on('data',data=>{
+                console.error(data.toString());
+            });
+            child.stdout.on('close',code=>{
+                resolve(code);
+            })
         });
     })
     .then(data=>{
-        console.log(data);
-        res.status(200).json(data).end();
+        return new Promise((resolve,reject)=>{
+            const { spawn } = require('child_process');
+            let log = '';
+            let childEnv = JSON.parse(JSON.stringify(process.env));
+            childEnv.HDI_DEPLOY_OPTIONS = JSON.stringify({
+                auto_undeploy : true,
+                exit : true
+            });
+            childEnv.TARGET_CONTAINER = fields.hdiContainer;
+            childEnv.VCAP_SERVICES = JSON.stringify({
+                "hana": [ {
+                    "name": fields.hdiContainer,
+                    "label": "hana",
+                    "tags": [ "hana", "database", "relational" ],
+                    "plan": "hdi-shared",
+                    "credentials": {
+                        "schema": fields.hdiContainer,
+                        "user": fields.hdiRTUser,
+                        "password": fields.hdiRTPassword,
+                        "hdi_user": fields.hdiDTUser,
+                        "hdi_password": fields.hdiDTPassword,
+                        "host" : fields.dbServerHost,
+                        "port" : fields.dbServerPort,
+                        "tenant_name": fields.tenantDB,
+                        "db_hosts": [{
+                            "port": parseInt(fields.dbServerPort),
+                            "host": fields.dbServerHost
+                        }],
+                        "url": `jdbc:sap://${fields.dbServerHost}:${fields.dbServerPort}/?currentschema=${fields.hdiContainer}`,
+                        "driver": "com.sap.db.jdbc.Driver",
+                        "encrypt": false
+                    }
+                } ]});
+            const child = spawn('npm', ['run', 'start'], {
+                shell: true,
+                cwd: workingdir,
+                env : childEnv
+            });
+            child.stdout.on('data',data=>{
+                log+=data.toString();
+                console.log(data.toString());
+            });
+            child.stderr.on('data',data=>{
+                log+=data.toString();
+                console.error(data.toString());
+            });
+            child.stdout.on('close',code=>{
+                resolve({code, log});
+            })
+        });
+    })
+    .then(data=>{
+        console.log(`Child process exited with code ${data.code}.`);
+        res.status(200).json({message : data.log}).end();
     })
     .catch((err)=>{
         console.log(`An error occured while trying to deploy:\n${JSON.stringify(err)}`);
