@@ -1,0 +1,12 @@
+{
+  "configured": true,
+  "tenantDbNode": "hxehost:39041",
+  "tenantDbName": "HXE",
+  "systemDbNode": "hxehost:39017",
+  "hdiAdminUser": "HDIADMIN",
+  "authUser": "SYSTEM",
+  "deployDbHost": "hxehost",
+  "deployDbPort": "39041",
+  "deployTenantDB": "HXE",
+  "deployTargetContainer": "CONTAINER_NAME"
+}

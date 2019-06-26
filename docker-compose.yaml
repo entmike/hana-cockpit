@@ -1,0 +1,21 @@
+version: '3'
+    
+services:
+  hana-cockpit:
+    image: entmike/hana-cockpit
+    env_file: .env
+    volumes:
+      - /appdata/hana-cockpit/config:/app/config
+    ports:
+      - "8888:80"
+          
+  hxehost:
+    image: store/saplabs/hanaexpress:2.00.036.00.20190223.1
+    hostname: hxe
+    volumes:
+      - hxedev:/hana/mounts
+    
+volumes:
+  hxedev:
+    external:
+      name: hxedev
