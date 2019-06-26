@@ -3,9 +3,9 @@ version: '3'
 services:
   hana-cockpit:
     image: entmike/hana-cockpit
-    env_file: .env
+    env_file: cockpit.env
     volumes:
-      - /appdata/hana-cockpit/config:/app/config
+      - /c/Users/RHOWLES/data/hana-cockpit/config:/app/config
     ports:
       - "8888:80"
           

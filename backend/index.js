@@ -26,6 +26,9 @@ module.exports = {
         app.use('/api/resetPassword', require('./api/resetPassword'));
         app.use('/api/grantHDIRole', require('./api/grantHDIRole'));
         app.use('/api/mapExternalHost', require('./api/mapExternalHost'));
+        app.use('/api/addJWTProvider', require('./api/addJWTProvider'));
+        app.use('/api/createPSE', require('./api/createPSE'));
+        app.use('/api/createCertificate', require('./api/createCertificate'));
         app.use('/api/deployDB', require('./api/deployDB'));
 
         app.use(bodyParser.json());

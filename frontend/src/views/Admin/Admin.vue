@@ -52,6 +52,10 @@ import EnableHDI from '@/views/Admin/EnableHDI';
 import CreateContainer from '@/views/Admin/CreateContainer';
 import GrantHDIRole from '@/views/Admin/GrantHDIRole';
 import MapExternalHost from '@/views/Admin/MapExternalHost';
+import AddJWTProvider from '@/views/Admin/AddJWTProvider';
+import CreatePSE from '@/views/Admin/CreatePSE';
+import CreateCertificate from '@/views/Admin/CreateCertificate';
+
 import ErrorDialog from '@/components/ErrorDialog';
 
 import axios from 'axios';
@@ -202,6 +206,52 @@ export default {
         defaults : {
           dbServerNode : systemDBNode,
           authUser : authUser
+        }
+      },{
+        option : "Add JWT Provider",
+        description : "Add an external JWT IDP",
+        loadingMessage : "Adding...",
+        dialog : false,
+        component : AddJWTProvider,
+        data : { },
+        endpoint : '/api/addJWTProvider',
+        defaults : {
+          dbServerNode : tenantDBNode,
+          authUser : authUser,
+          name : "MY_JWT_PROVIDER",
+          issuer : "http://example.com:8080/uaa/oauth/token",
+          claim : "user_name"
+        }
+      },{
+        option : "Create Certificate Collection",
+        description : "Create a certificate collection",
+        loadingMessage : "Creating...",
+        dialog : false,
+        component : CreatePSE,
+        data : { },
+        endpoint : '/api/createPSE',
+        defaults : {
+          dbServerNode : tenantDBNode,
+          authUser : authUser,
+          name : "MyCertificateCollection",
+          purpose : "JWT"
+        }
+      },{
+        option : "Create Certificate",
+        description : "Create a certificate",
+        loadingMessage : "Creating...",
+        dialog : false,
+        component : CreateCertificate,
+        data : { },
+        endpoint : '/api/createCertificate',
+        defaults : {
+          dbServerNode : tenantDBNode,
+          authUser : authUser,
+          comment : "Certificate Comment",
+          certificate :
+`-----BEGIN CERTIFICATE-----
+...
+-----END CERTIFICATE-----`
         }
       }
     ]
