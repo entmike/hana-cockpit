@@ -12,6 +12,11 @@ services:
   hxehost:
     image: store/saplabs/hanaexpress:2.00.036.00.20190223.1
     hostname: hxe
+    ports:
+      - 39017:39017
+      - 39041:39041 
+      - 39013:39013
+      - 39015:39015
     volumes:
       - hxedev:/hana/mounts
     

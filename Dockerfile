@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y nginx
 
 # Configure nginx and startup
 COPY ./docker-files/server.conf /etc/nginx/conf.d/default.conf
+COPY ./docker-files/timeout.conf /etc/nginx/conf.d/timeout.conf
 
 # Copy files
 COPY ./frontend /app/frontend
