@@ -39,8 +39,10 @@
 </template>
 
 <script>
-import DeployDB from '@/views/Deploy/DeployDB';
-import ContainerContents from '@/views/Deploy/ContainerContents';
+import DeployDB from '@/views/HDI/DeployDB';
+import CreateContainer from '@/views/HDI/CreateContainer';
+import GrantHDIRole from '@/views/HDI/GrantHDIRole';
+import ContainerContents from '@/views/HDI/ContainerContents';
 import ErrorDialog from '@/components/ErrorDialog';
 import LoadingDialog from '@/components/LoadingDialog';
 
@@ -74,7 +76,9 @@ export default {
       }
       this.loading=true;
       this.loadingMessage=item.loadingMessage;
-      axios.post(`${process.env.VUE_APP_HANA_APP_BACKEND}${item.endpoint}`,formData,item.endpointHeaders||{}).then(res=>{
+      axios.post(`${process.env.VUE_APP_HANA_APP_BACKEND}${item.endpoint}`,formData,item.endpointHeaders||{
+          'Content-Type': 'multipart/form-data'
+        }).then(res=>{
         item.dialog = false;
         this.loading=false;
         this.complete=true;
@@ -102,6 +106,10 @@ export default {
     let dbPort = this.$store.getters.config.config.deployDbPort || process.env.VUE_APP_HANA_DEPLOYDBPORT || '39041';
     let dbName = this.$store.getters.config.config.deployTenantDb || process.env.VUE_APP_HANA_DEPLOYTENANTDB || 'HXE'; 
     let targetContainer = this.$store.getters.config.config.deployTargetContainer || process.env.VUE_APP_HANA_DEPLOYTARGETCONTAINER || 'CONTAINER_NAME'; 
+    let tenantDBNode = this.$store.getters.config.config.tenantDbNode || process.env.VUE_APP_HANA_TENANTNODE || 'localhost:39041';
+    let tenantDBName = this.$store.getters.config.config.tenantDbName || process.env.VUE_APP_HANA_TENANTDBNAME || 'HXE'; 
+    let hdiAdminUser = this.$store.getters.config.config.hdiAdminUser || process.env.VUE_APP_HANA_HDIADMINUSER || 'HDI_ADMIN';
+    let authUser = this.$store.getters.config.config.authUser || process.env.VUE_APP_HANA_AUTHUSER || 'SYSTEM';  
 
     return {
     loading : false,
@@ -115,17 +123,26 @@ export default {
     },
     deployOptions : [
       {
+        option : "Create an HDI Container",
+        description : "Create an HDI Container in an HDI-Enabled Tenant DB",
+        loadingMessage : "Creating Container...",
+        dialog : false,
+        component : CreateContainer,
+        data : { },
+        endpoint : '/api/createContainer',
+        defaults : {
+          dbServerNode : tenantDBNode,
+          authUser : authUser,
+          hdiAdmin : hdiAdminUser
+        }
+      },{
         option : "Deploy a DB Module",
-        // socket : true,
         description : "Deploy a DB module to an HDI Container",
         loadingMessage : "Deploying Module...",
         dialog : false,
         component : DeployDB,
         data : { },
         endpoint : '/api/deployDB',
-        endpointHeaders : {
-          'Content-Type': 'multipart/form-data'
-        },
         fileFields : ["dbZip"],
         defaults : {
           dbServerHost : dbHost,
@@ -136,6 +153,18 @@ export default {
           hdiRTUser : `${targetContainer}_USER_RT`
         }
       },{
+        option : "Grant HDI Role",
+        description : "Grant an HDI Container Role to a HANA DB User",
+        loadingMessage : "Granting Role...",
+        dialog : false,
+        component : GrantHDIRole,
+        data : { },
+        endpoint : '/api/grantHDIRole',
+        defaults : {
+          dbServerNode : tenantDBNode,
+          hdiDTUser : 'CONTAINERNAME_USER_DT'
+        }
+      },{
         option : "Container Contents",
         description : "List Container Contents",
         loadingMessage : "Getting Contents...",
@@ -143,9 +172,6 @@ export default {
         component : ContainerContents,
         data : { },
         endpoint : "/api/containerContents",
-        endpointHeaders : {
-          'Content-Type': 'multipart/form-data'
-        },
         defaults : {
           dbServerHost : dbHost,
           dbServerPort : dbPort,

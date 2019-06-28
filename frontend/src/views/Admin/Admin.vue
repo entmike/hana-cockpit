@@ -49,8 +49,6 @@
 import CreateUser from '@/views/Admin/CreateUser';
 import ResetPassword from '@/views/Admin/ResetPassword';
 import EnableHDI from '@/views/Admin/EnableHDI';
-import CreateContainer from '@/views/Admin/CreateContainer';
-import GrantHDIRole from '@/views/Admin/GrantHDIRole';
 import MapExternalHost from '@/views/Admin/MapExternalHost';
 import AddJWTProvider from '@/views/Admin/AddJWTProvider';
 import CreatePSE from '@/views/Admin/CreatePSE';
@@ -170,31 +168,6 @@ export default {
           tenantAuthUser : authUser,
           hdiAdmin : hdiAdminUser,
           tenantDB : tenantDBName
-        }
-      },{
-        option : "Create an HDI Container",
-        description : "Create an HDI Container in an HDI-Enabled Tenant DB",
-        loadingMessage : "Creating Container...",
-        dialog : false,
-        component : CreateContainer,
-        data : { },
-        endpoint : '/api/createContainer',
-        defaults : {
-          dbServerNode : tenantDBNode,
-          authUser : authUser,
-          hdiAdmin : hdiAdminUser
-        }
-      },{
-        option : "Grant HDI Role",
-        description : "Grant an HDI Container Role to a HANA DB User",
-        loadingMessage : "Granting Role...",
-        dialog : false,
-        component : GrantHDIRole,
-        data : { },
-        endpoint : '/api/grantHDIRole',
-        defaults : {
-          dbServerNode : tenantDBNode,
-          hdiDTUser : 'CONTAINERNAME_USER_DT'
         }
       },{
         option : "Map External Host",

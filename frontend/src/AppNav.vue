@@ -23,7 +23,7 @@ export default {
             drawer: false,
             items: [
                 { title: 'Administration', link: '' },
-                { title: 'Deploy', link: 'deploy' },
+                { title: 'HDI', link: 'hdi' },
                 { title: 'SQL', link: 'sql' }
             ]
         };

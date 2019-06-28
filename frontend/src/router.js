@@ -15,9 +15,9 @@ export default new Router({
       name: 'Preferences',
       component: () => import('./views/Preferences/Preferences.vue')
     },{
-      path: '/Deploy',
-      name: 'Deploy',
-      component: () => import('./views/Deploy/Deploy.vue')
+      path: '/HDI',
+      name: 'HDI',
+      component: () => import('./views/HDI/HDI.vue')
     },{
       path: '/sql',
       name: 'sql',
