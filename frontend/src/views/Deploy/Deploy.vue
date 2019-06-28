@@ -40,6 +40,7 @@
 
 <script>
 import DeployDB from '@/views/Deploy/DeployDB';
+import ContainerContents from '@/views/Deploy/ContainerContents';
 import ErrorDialog from '@/components/ErrorDialog';
 import LoadingDialog from '@/components/LoadingDialog';
 
@@ -64,18 +65,13 @@ export default {
       let formData = new FormData();
       for(let field in item.data){
         formData.append(field, item.data[field]);
-        console.log(`Appending ${field}.`);
-        console.log(item.data[field]);
       }
       if(item.fileFields){
         for(let field of item.fileFields){
           if(!comp[field]) return;
           formData.append(field, comp[field]);
-          console.log(`Appending ${field}.`);
-          console.log(comp[field]);
         }
       }
-      console.log(formData);
       this.loading=true;
       this.loadingMessage=item.loadingMessage;
       axios.post(`${process.env.VUE_APP_HANA_APP_BACKEND}${item.endpoint}`,formData,item.endpointHeaders||{}).then(res=>{
@@ -116,7 +112,7 @@ export default {
       error : false,
       message : null,
       details : null
-    },    
+    },
     deployOptions : [
       {
         option : "Deploy a DB Module",
@@ -138,6 +134,23 @@ export default {
           hdiContainer : targetContainer,
           hdiDTUser : `${targetContainer}_USER_DT`,
           hdiRTUser : `${targetContainer}_USER_RT`
+        }
+      },{
+        option : "Container Contents",
+        description : "List Container Contents",
+        loadingMessage : "Getting Contents...",
+        dialog : false,
+        component : ContainerContents,
+        data : { },
+        endpoint : "/api/containerContents",
+        endpointHeaders : {
+          'Content-Type': 'multipart/form-data'
+        },
+        defaults : {
+          dbServerHost : dbHost,
+          dbServerPort : dbPort,
+          hdiContainer : targetContainer,
+          hdiDTUser : `${targetContainer}_USER_DT`
         }
       }
     ]

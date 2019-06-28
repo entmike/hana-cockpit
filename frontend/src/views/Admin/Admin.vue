@@ -55,6 +55,7 @@ import MapExternalHost from '@/views/Admin/MapExternalHost';
 import AddJWTProvider from '@/views/Admin/AddJWTProvider';
 import CreatePSE from '@/views/Admin/CreatePSE';
 import CreateCertificate from '@/views/Admin/CreateCertificate';
+import MassLockUsers from '@/views/Admin/MassLockUsers';
 
 import ErrorDialog from '@/components/ErrorDialog';
 
@@ -253,7 +254,22 @@ export default {
 ...
 -----END CERTIFICATE-----`
         }
-      }
+      }/*
+      TODO
+      ,{
+        option : "Lock/Unlock Users",
+        description : "Mass Lock or Unlock Users.  You may specify an exclude role.  Will not lock the Authorized User you use.",
+        loadingMessage : "Running...",
+        dialog : false,
+        component : MassLockUsers,
+        data : { },
+        endpoint : '/api/massLockUsers',
+        defaults : {
+          dbServerNode : tenantDBNode,
+          authUser : authUser,
+          method : "unlock"
+        }
+      }*/
     ]
   };},
   components: {

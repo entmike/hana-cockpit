@@ -30,6 +30,7 @@ module.exports = {
         app.use('/api/createPSE', require('./api/createPSE'));
         app.use('/api/createCertificate', require('./api/createCertificate'));
         app.use('/api/deployDB', require('./api/deployDB'));
+        app.use('/api/containerContents', require('./api/containerContents'));
 
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({
