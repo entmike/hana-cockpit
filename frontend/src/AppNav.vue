@@ -7,6 +7,7 @@
         </template>
         <v-spacer />
         <v-btn flat to="/Preferences">Preferences</v-btn>
+        <v-btn flat to="/logout">Log Out</v-btn>
     </v-toolbar>
 </template>
 

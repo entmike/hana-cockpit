@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     config : {},
-    count: 0
+    count: 0,
+    password : null
   },
   getters: {
     doubleup(state) {
@@ -14,11 +15,17 @@ export default new Vuex.Store({
     },
     config (state) {
       return state.config;
+    },
+    password (state){
+      return state.password;
     }
   },
   mutations: {
     SET_CONFIG : (state, payload) => {
       state.config = JSON.parse(JSON.stringify(payload));
+    },
+    SET_PASSWORD : (state, payload) => {
+      state.password = payload;
     },
     increment(state) {
       state.count++;
@@ -30,6 +37,9 @@ export default new Vuex.Store({
   actions: {
     setConfig (context, cfg) {
       context.commit('SET_CONFIG', cfg)
+    },
+    setPassword (context, pass) {
+      context.commit('SET_PASSWORD', pass)
     },
     reset_counter(context) {
       context.commit('set_counter', 0)
