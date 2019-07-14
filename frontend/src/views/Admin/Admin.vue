@@ -48,6 +48,7 @@
 <script>
 import CreateUser from '@/views/Admin/CreateUser';
 import ResetPassword from '@/views/Admin/ResetPassword';
+import GrantRole from '@/views/Admin/GrantRole';
 import EnableHDI from '@/views/Admin/EnableHDI';
 import MapExternalHost from '@/views/Admin/MapExternalHost';
 import AddJWTProvider from '@/views/Admin/AddJWTProvider';
@@ -152,6 +153,20 @@ export default {
           dbServerNode : tenantDBNode,
           authUser : authUser,
           mustChange : false
+        }
+      },{
+        option : "Grant Repo Role to User",
+        // socket : true,
+        description : "Grant HANA DB Repo Role to a User",
+        loadingMessage : "Granting Role...",
+        dialog : false,
+        component : GrantRole,
+        data : { },
+        endpoint : '/api/grantRole',
+        defaults : {
+          dbServerNode : tenantDBNode,
+          authUser : authUser,
+          role : 'sap.bc.ina.service.v2.userRole::INA_USER'
         }
       },{
         option : "HDI Enable a Tenant DB",

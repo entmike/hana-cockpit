@@ -25,6 +25,7 @@ module.exports = {
         app.use('/api/createUser', require('./api/createUser'));
         app.use('/api/resetPassword', require('./api/resetPassword'));
         app.use('/api/grantHDIRole', require('./api/grantHDIRole'));
+        app.use('/api/grantRole', require('./api/grantRole'));
         app.use('/api/mapExternalHost', require('./api/mapExternalHost'));
         app.use('/api/addJWTProvider', require('./api/addJWTProvider'));
         app.use('/api/createPSE', require('./api/createPSE'));
