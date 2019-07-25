@@ -16,21 +16,6 @@
         </v-layout>
         <v-layout row>
             <v-text-field
-              v-model="value.authUser"
-              :rules="requiredRules"
-              label="Security Grantor User"
-              required
-            />
-            <v-text-field
-              v-model="value.authPassword"
-              type="password"
-              :rules="requiredRules"
-              label="Security Grantor Password"
-              required
-            />
-        </v-layout>
-        <v-layout row>
-            <v-text-field
               v-model="value.hdiAdmin"
               :rules="requiredRules"
               label="HDI Administrator"
@@ -44,28 +29,13 @@
               required
             />
         </v-layout>
-        <v-text-field
-          v-model="value.hdiUserPassword"
-          type="password"
-          :counter="30"
-          :rules='passwordRules'
-          label="HDI Container User Password"
-          required
-        />
-        <v-text-field
-          v-model="value.confirmpassword"
-          type="password"
-          :counter="30"
-          :rules='passwordConfirmationRules'
-          label="Verify Password"
-          required
-        />
+        
       </v-form>
 </template>
 
 <script>
 export default {
-    name: 'CreateContainer',
+    name: 'DropContainer',
     props : [ 'value' ],
     data: () => ({
       valid: true,

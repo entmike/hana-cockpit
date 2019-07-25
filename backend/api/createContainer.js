@@ -71,8 +71,8 @@ router.post('/',cors(),(req,res)=>{
             utils.log(`Logging in as ${fields.hdiAdmin} to create container '${fields.hdiContainer}'...`);
             conn.connect({
                 serverNode  : fields.dbServerNode,
-                uid         : fields.authUser,
-                pwd         : fields.authPassword
+                uid         : fields.hdiAdmin,
+                pwd         : fields.hdiAdminPassword
             }, err => {
                 if(err) return reject(err); 
                 return resolve(conn);

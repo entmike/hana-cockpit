@@ -22,6 +22,7 @@ module.exports = {
         app.use('/api/sql', require('./api/sql'));
         app.use('/api/enableHDI', require('./api/enableHDI'));
         app.use('/api/createContainer', require('./api/createContainer'));
+        app.use('/api/dropContainer', require('./api/dropContainer'));
         app.use('/api/createUser', require('./api/createUser'));
         app.use('/api/resetPassword', require('./api/resetPassword'));
         app.use('/api/grantHDIRole', require('./api/grantHDIRole'));

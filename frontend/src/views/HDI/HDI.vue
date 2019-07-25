@@ -41,6 +41,7 @@
 <script>
 import DeployDB from '@/views/HDI/DeployDB';
 import CreateContainer from '@/views/HDI/CreateContainer';
+import DropContainer from '@/views/HDI/DropContainer';
 import GrantHDIRole from '@/views/HDI/GrantHDIRole';
 import ContainerContents from '@/views/HDI/ContainerContents';
 import ErrorDialog from '@/components/ErrorDialog';
@@ -133,6 +134,18 @@ export default {
         defaults : {
           dbServerNode : tenantDBNode,
           authUser : authUser,
+          hdiAdmin : hdiAdminUser
+        }
+      },{
+        option : "Drop an HDI Container",
+        description : "Drop an HDI Container in an HDI-Enabled Tenant DB",
+        loadingMessage : "Dropping Container...",
+        dialog : false,
+        component : DropContainer,
+        data : { },
+        endpoint : '/api/dropContainer',
+        defaults : {
+          dbServerNode : tenantDBNode,
           hdiAdmin : hdiAdminUser
         }
       },{
