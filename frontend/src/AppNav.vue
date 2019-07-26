@@ -23,7 +23,8 @@ export default {
             appTitle: 'HANA Sandbox',
             drawer: false,
             items: [
-                { title: 'Administration', link: '' },
+                { title: 'Overview', link: '' },
+                { title: 'Administration', link: 'administration' },
                 { title: 'HDI', link: 'hdi' },
                 { title: 'SQL', link: 'sql' }
             ]

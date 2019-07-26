@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Admin from './views/Admin/Admin.vue'
 import Login from './views/Login/Login.vue'
+import Overview from './views/Overview/Overview.vue'
 
 Vue.use(Router)
 
@@ -22,6 +23,13 @@ let router =  new Router({
       }
     },{
       path: '/',
+      name: 'Overview',
+      component: Overview,
+      meta : {
+        requiresAuth : true
+      }
+    },{
+      path: '/Administration',
       name: 'Administration',
       component: Admin,
       meta : {

@@ -64,6 +64,39 @@ router.post('/',cors(),(req,res)=>{
                         });                        
                     }));
                 }
+                // Only make a promise if the service count is 0.
+                if(results[0].DPSERVER==0){
+                    promises.push(new Promise((resolve,reject)=>{
+                        console.log(`Enabling dpserver for Tenant DB ${req.body.tenantDB}...`);
+                        conn.exec(`ALTER DATABASE HXE ADD 'dpserver';`, null, (err,results)=>{
+                            if(err) return reject(err);
+                            console.log(`dpserver added.`);
+                            resolve(`dpserver added.`);
+                        });                        
+                    }));
+                }
+                // Only make a promise if the service count is 0.
+                if(results[0].DOCSTORE==0){
+                    promises.push(new Promise((resolve,reject)=>{
+                        console.log(`Enabling docstore for Tenant DB ${req.body.tenantDB}...`);
+                        conn.exec(`ALTER DATABASE HXE ADD 'docstore';`, null, (err,results)=>{
+                            if(err) return reject(err);
+                            console.log(`docstore added.`);
+                            resolve(`docstore added.`);
+                        });                        
+                    }));
+                }
+                // Only make a promise if the service count is 0.
+                if(results[0].SCRIPTSERVER==0){
+                    promises.push(new Promise((resolve,reject)=>{
+                        console.log(`Enabling scriptserver for Tenant DB ${req.body.tenantDB}...`);
+                        conn.exec(`ALTER DATABASE HXE ADD 'scriptserver';`, null, (err,results)=>{
+                            if(err) return reject(err);
+                            console.log(`scriptserver added.`);
+                            resolve(`scriptserver added.`);
+                        });
+                    }));
+                }
                 return Promise.all(promises).then(data=>{
                     console.log(`Activated the following services that were needed:\n${JSON.stringify(data)}`);
                     resolve(data);

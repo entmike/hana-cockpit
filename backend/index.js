@@ -17,6 +17,7 @@ module.exports = {
                 console.log('Connection terminated.');
             });
         });
+        app.use('/api/overview', require('./api/overview'));
         app.use('/api/getconfig', require('./api/getconfig'));
         app.use('/api/saveconfig', require('./api/saveconfig'));
         app.use('/api/sql', require('./api/sql'));
