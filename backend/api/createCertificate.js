@@ -3,7 +3,6 @@ const router = express.Router();
 const cors = require('cors');
 const hana = require('@sap/hana-client');
 const bodyParser = require('body-parser');
-const os = require('os');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended:true}));
@@ -33,9 +32,7 @@ router.post('/',cors(),(req,res)=>{
         .replace(/ /g,'')
         .replace(/-----BEGIN CERTIFICATE-----/g,'-----BEGIN CERTIFICATE-----\r')
         .replace(/-----END CERTIFICATE-----/g,'\r-----END CERTIFICATE-----');
-    let user = req.body.user;
-    let userPassword = req.body.userPassword;
-    let hostname = null;
+
     new Promise((resolve,reject)=>{
         conn.connect({
             serverNode  : req.body.dbServerNode,
@@ -46,7 +43,7 @@ router.post('/',cors(),(req,res)=>{
             resolve();
         });
     })
-    .then(data=>{
+    .then(()=>{
         new Promise((resolve,reject)=>{
             conn.exec(`SELECT CERTIFICATE_ID FROM CERTIFICATES WHERE CERTIFICATE LIKE '${cert}';`,null,(err,results)=>{
                 if(err) return reject(err);
@@ -55,7 +52,7 @@ router.post('/',cors(),(req,res)=>{
             })
         });
     })
-    .then(data=>{
+    .then(()=>{
         console.log(`Adding Certificate '${req.body.comment}'...`);
         return `CREATE CERTIFICATE FROM '${cert}';
         SELECT CERTIFICATE_ID FROM CERTIFICATES WHERE CERTIFICATE LIKE '${cert}';`
@@ -80,15 +77,13 @@ router.post('/',cors(),(req,res)=>{
             let certId = data[0].CERTIFICATE_ID;
             if(req.body.pse){
                 return new Promise((resolve,reject)=>{
-                    conn.exec(`ALTER PSE ${req.body.pse} ADD CERTIFICATE ${certId}`,null,(err,results)=>{
+                    conn.exec(`ALTER PSE ${req.body.pse} ADD CERTIFICATE ${certId}`,null,(err)=>{
                         if(err) return reject(err);
                         resolve(`Done creating Certificate '${req.body.comment}'.  Your certificate ID is ${data[0].CERTIFICATE_ID} and has been added to PSE ${req.body.pse}`);
                     })
                 })
             }else{
-                return new Promise((resolve,reject)=>{
-                    resolve(`Done creating Certificate '${req.body.comment}'.  Your certificate ID is ${data[0].CERTIFICATE_ID}`);
-                });
+                Promise.resolve(`Done creating Certificate '${req.body.comment}'.  Your certificate ID is ${data[0].CERTIFICATE_ID}`);
             }
         }
     })

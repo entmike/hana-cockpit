@@ -3,7 +3,6 @@ const router = express.Router();
 const cors = require('cors');
 const hana = require('@sap/hana-client');
 const bodyParser = require('body-parser');
-const os = require('os');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended:true}));
@@ -28,8 +27,6 @@ router.post('/',cors(),(req,res)=>{
         return;
     }
     let conn = hana.createConnection();
-    let user = req.body.user;
-    let userPassword = req.body.userPassword;
     let hostname = null;
     new Promise((resolve,reject)=>{
         conn.connect({
@@ -40,7 +37,7 @@ router.post('/',cors(),(req,res)=>{
             if (err) return reject(err);
             resolve();
         });
-    }).then(data=>{
+    }).then(()=>{
         console.log(`Getting current hostname...`);
         return new Promise((resolve,reject)=>{
             conn.exec(`SELECT VALUE FROM M_HOST_INFORMATION WHERE KEY='net_hostnames'`,(err,results)=>{
@@ -74,7 +71,7 @@ router.post('/',cors(),(req,res)=>{
                 });
             });
         }, Promise.resolve());
-    }).then(data=>{
+    }).then(()=>{
         console.log(`Done mapping ${hostname} to ${req.body.externalHost}.`);
         res.status(200);
         res.json({

@@ -29,6 +29,7 @@ router.post('/',cors(),(req,res)=>{
     let conn = hana.createConnection();
     let user = req.body.user;
     let userPassword = req.body.userPassword;
+
     conn.connect({
         serverNode  : req.body.dbServerNode,
         uid         : req.body.authUser,
@@ -48,7 +49,7 @@ router.post('/',cors(),(req,res)=>{
                     if (err) return reject(err);
                     resolve(results);
                 });
-            }).then(data=>{
+            }).then(()=>{
                 console.log(`Done creating ${user}.`);
                 res.status(200);
                 res.json({

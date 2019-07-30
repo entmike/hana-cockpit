@@ -48,7 +48,7 @@ router.post('/',cors(),(req,res)=>{
                     if (err) return reject(err);
                     resolve(results);
                 });
-            }).then(data=>{
+            }).then(()=>{
                 console.log(`Done resetting ${user}.`);
                 res.status(200);
                 res.json({

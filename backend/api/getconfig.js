@@ -38,7 +38,7 @@ router.post('/',cors(),(req,res)=>{
                 reject("Could not parse configuration file's JSON content.");
             }
         })
-    }).then(data=>{
+    }).then(()=>{
         config.location = `${process.env.CONFIG}/app.json`;
         delete config.config.secret;
         console.log(config);

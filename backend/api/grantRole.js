@@ -62,7 +62,7 @@ router.post('/',cors(),(req,res)=>{
                 });
             });
         }, Promise.resolve())
-    }).then(data=>{
+    }).then(()=>{
         utils.log(`Grant to ${fields.user} succeeded.`);
         res.status(200);
         res.json({

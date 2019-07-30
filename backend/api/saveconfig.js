@@ -11,6 +11,7 @@ router.options('*',cors());
 
 router.post('/',cors(),(req,res)=>{
     let missing = [];
+    let config = {};
     for(let field in requiredEnv) if(!process.env[field]) missing.push({field:field,desc:requiredEnv[field]});
     if(missing.length>0) {
         config.status = "missingenv"
@@ -38,7 +39,7 @@ router.post('/',cors(),(req,res)=>{
         return;
     }else{
         console.log(req.body.config);
-        fs.writeFile(`${process.env.CONFIG}/app.json`,JSON.stringify(req.body.config.config, null, 2),(err,data)=>{
+        fs.writeFile(`${process.env.CONFIG}/app.json`,JSON.stringify(req.body.config.config, null, 2),(err)=>{
             if(err) {
                 res.status(500);
                 res.json(`An error occured while writing to config file ${process.env.CONFIG}/app.json}:${err}`);

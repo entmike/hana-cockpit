@@ -38,7 +38,7 @@ router.post('/',cors(),(req,res)=>{
             if (err) return reject(err);
             resolve(conn);
         });
-    }).then(data=>{
+    }).then(()=>{
         return new Promise((resolve,reject)=>{
             // Get Service counts for tenant DB
             conn.exec(`SELECT
@@ -57,7 +57,7 @@ router.post('/',cors(),(req,res)=>{
                 if(results[0].DISERVER==0){
                     promises.push(new Promise((resolve,reject)=>{
                         console.log(`Enabling diserver for Tenant DB ${req.body.tenantDB}...`);
-                        conn.exec(`ALTER DATABASE HXE ADD 'diserver';`, null, (err,results)=>{
+                        conn.exec(`ALTER DATABASE HXE ADD 'diserver';`, null, (err)=>{
                             if(err) return reject(err);
                             console.log(`diserver added.`);
                             resolve(`diserver added.`);
@@ -68,7 +68,7 @@ router.post('/',cors(),(req,res)=>{
                 if(results[0].DPSERVER==0){
                     promises.push(new Promise((resolve,reject)=>{
                         console.log(`Enabling dpserver for Tenant DB ${req.body.tenantDB}...`);
-                        conn.exec(`ALTER DATABASE HXE ADD 'dpserver';`, null, (err,results)=>{
+                        conn.exec(`ALTER DATABASE HXE ADD 'dpserver';`, null, (err)=>{
                             if(err) return reject(err);
                             console.log(`dpserver added.`);
                             resolve(`dpserver added.`);
@@ -79,7 +79,7 @@ router.post('/',cors(),(req,res)=>{
                 if(results[0].DOCSTORE==0){
                     promises.push(new Promise((resolve,reject)=>{
                         console.log(`Enabling docstore for Tenant DB ${req.body.tenantDB}...`);
-                        conn.exec(`ALTER DATABASE HXE ADD 'docstore';`, null, (err,results)=>{
+                        conn.exec(`ALTER DATABASE HXE ADD 'docstore';`, null, (err)=>{
                             if(err) return reject(err);
                             console.log(`docstore added.`);
                             resolve(`docstore added.`);
@@ -90,7 +90,7 @@ router.post('/',cors(),(req,res)=>{
                 if(results[0].SCRIPTSERVER==0){
                     promises.push(new Promise((resolve,reject)=>{
                         console.log(`Enabling scriptserver for Tenant DB ${req.body.tenantDB}...`);
-                        conn.exec(`ALTER DATABASE HXE ADD 'scriptserver';`, null, (err,results)=>{
+                        conn.exec(`ALTER DATABASE HXE ADD 'scriptserver';`, null, (err)=>{
                             if(err) return reject(err);
                             console.log(`scriptserver added.`);
                             resolve(`scriptserver added.`);
@@ -107,7 +107,7 @@ router.post('/',cors(),(req,res)=>{
                 })
             });
         });
-    }).then(data=>{
+    }).then(()=>{
         conn.disconnect();
         console.log(`Connecting to Tenant DB Node ${req.body.dbServerNode} as ${req.body.tenantAuthUser}...`);
         
@@ -121,7 +121,7 @@ router.post('/',cors(),(req,res)=>{
                 resolve(conn);
             });
         });
-    }).then(data=>{
+    }).then(()=>{
         console.log(`Creating HDI Administrator ${req.body.hdiAdmin} and assigning rights...`);
         return `CREATE USER ${req.body.hdiAdmin} PASSWORD "${req.body.hdiAdminPassword}" NO FORCE_FIRST_PASSWORD_CHANGE;
             GRANT USER ADMIN to ${req.body.hdiAdmin};
@@ -143,7 +143,7 @@ router.post('/',cors(),(req,res)=>{
                     });
                 });
             }, Promise.resolve());
-    }).then(data=>{
+    }).then(()=>{
         console.log(`Done creating ${req.body.hdiAdmin} and assigning rights`);
         res.status(200);
         res.json({

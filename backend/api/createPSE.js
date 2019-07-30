@@ -3,7 +3,6 @@ const router = express.Router();
 const cors = require('cors');
 const hana = require('@sap/hana-client');
 const bodyParser = require('body-parser');
-const os = require('os');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended:true}));
@@ -28,9 +27,7 @@ router.post('/',cors(),(req,res)=>{
         return;
     }
     let conn = hana.createConnection();
-    let user = req.body.user;
-    let userPassword = req.body.userPassword;
-    let hostname = null;
+
     new Promise((resolve,reject)=>{
         conn.connect({
             serverNode  : req.body.dbServerNode,
@@ -40,7 +37,7 @@ router.post('/',cors(),(req,res)=>{
             if (err) return reject(err);
             resolve();
         });
-    }).then(data=>{
+    }).then(()=>{
         console.log(`Adding PSE ${req.body.name}...`);
         return `CREATE PSE ${req.body.name};
         SET PSE ${req.body.name} PURPOSE ${req.body.purpose};`
@@ -58,7 +55,7 @@ router.post('/',cors(),(req,res)=>{
                 });
             });
         }, Promise.resolve());
-    }).then(data=>{
+    }).then(()=>{
         console.log(`Done creating PSE ${req.body.name}.`);
         res.status(200);
         res.json({

@@ -64,7 +64,7 @@ router.post('/',cors(),(req,res)=>{
                 });
             })
         ]);
-    }).then(data=>{
+    }).then(()=>{
         utils.log(`User creation complete.  Logging out as ${fields.authUser}`);
         conn.disconnect();
         return new Promise((resolve,reject)=>{
@@ -123,7 +123,7 @@ router.post('/',cors(),(req,res)=>{
                 });
             });
         }, Promise.resolve());
-    }).then(data=>{
+    }).then(()=>{
         utils.log(`Logging out as ${fields.hdiAdmin}`);
         conn.disconnect();
         return new Promise((resolve,reject)=>{
@@ -137,7 +137,7 @@ router.post('/',cors(),(req,res)=>{
                 return resolve(conn);
             });
         });
-    }).then(data=>{
+    }).then(()=>{
         utils.log(`Configuring default libraries for HDI Container "${fields.hdiContainer}"...`);
         return new Promise((resolve,reject)=>{
             conn.exec(`CALL ${fields.hdiContainer}#DI.CONFIGURE_LIBRARIES(_SYS_DI.T_DEFAULT_LIBRARIES, _SYS_DI.T_NO_PARAMETERS, ?, ?, ?);`,null,(err,results)=>{
@@ -145,7 +145,7 @@ router.post('/',cors(),(req,res)=>{
                 return resolve(results);
             });
         });
-    }).then(data=>{
+    }).then(()=>{
         utils.log(`HDI Container libraries configured.  Job complete.`);
         res.status(200);
         res.json({

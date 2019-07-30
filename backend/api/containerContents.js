@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
-const { HDI, Container, Folder, Parameter } = require('@sap/hdi');
-const bodyParser = require('body-parser');
+const { Container, Folder, Parameter } = require('@sap/hdi');
 const formidable = require('formidable');
 
 router.options('*',cors());

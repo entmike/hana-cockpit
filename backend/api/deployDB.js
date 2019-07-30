@@ -1,16 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
+const { spawn } = require('child_process');
 
-const bodyParser = require('body-parser');
 const formidable = require('formidable');
 const admzip = require('adm-zip');
 const uuidv3 = require('uuid/v3');
 const fs = require('fs');
-const path = require('path');
 
-//router.use(bodyParser.json());
-//router.use(bodyParser.urlencoded({extended:true}));
 router.options('*',cors());
 
 router.post('/',cors(),(req,res)=>{
@@ -64,9 +61,8 @@ router.post('/',cors(),(req,res)=>{
             });
         });
     })
-    .then(data=>{
+    .then(()=>{
         return new Promise((resolve,reject)=>{ 
-            const { spawn } = require('child_process');
             const child = spawn('npm', ['i'], {
                 shell: true,
                 cwd: workingdir
@@ -76,13 +72,14 @@ router.post('/',cors(),(req,res)=>{
             });
             child.stderr.on('data',data=>{
                 console.error(data.toString());
+                reject(data.toString());
             });
             child.stdout.on('close',code=>{
                 resolve(code);
             })
         });
     })
-    .then(data=>{
+    .then(()=>{
         return new Promise((resolve,reject)=>{
             const { spawn } = require('child_process');
             let log = '';
@@ -128,10 +125,11 @@ router.post('/',cors(),(req,res)=>{
             child.stderr.on('data',data=>{
                 log+=data.toString();
                 console.error(data.toString());
+                reject(data.toString());
             });
             child.stdout.on('close',code=>{
                 resolve({code, log});
-            })
+            });
         });
     })
     .then(data=>{

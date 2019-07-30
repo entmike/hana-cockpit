@@ -68,7 +68,7 @@ router.post('/',cors(),(req,res)=>{
         utils.log(`Logging out as ${fields.hdiAdmin}`);
         conn.disconnect();
         Promise.resolve();
-    }).then(data=>{
+    }).then(()=>{
         utils.log(`HDI Container dropped.  Job complete.`);
         res.status(200);
         res.json({
