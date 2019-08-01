@@ -47,8 +47,11 @@
 
 <script>
 import CreateUser from '@/views/Admin/CreateUser';
+import CreateAgent from '@/views/Admin/CreateAgent';
+import CreateAdapter from '@/views/Admin/CreateAdapter';
 import ResetPassword from '@/views/Admin/ResetPassword';
 import GrantRole from '@/views/Admin/GrantRole';
+import EnableService from '@/views/Admin/EnableService';
 import EnableHDI from '@/views/Admin/EnableHDI';
 import MapExternalHost from '@/views/Admin/MapExternalHost';
 import AddJWTProvider from '@/views/Admin/AddJWTProvider';
@@ -167,6 +170,51 @@ export default {
           dbServerNode : tenantDBNode,
           authUser : authUser,
           role : 'sap.bc.ina.service.v2.userRole::INA_USER'
+        }
+      },{
+        option : "Enable a database service",
+        description : "Enable dpserver, docstore, or scriptserver",
+        loadingMessage : "Enabling Service...",
+        dialog : false,
+        component : EnableService,
+        data : { },
+        endpoint : '/api/enableService',
+        defaults : {
+          systemDBServerNode : systemDBNode,
+          tenantDB : tenantDBName,
+          authUser : authUser,
+          tenantAuthUser : authUser,
+          service : "dpserver"       
+        }
+      },{
+        option : "Create DP Agent",
+        description : "Create a Data Provisioning Agent (requires dpserver service)",
+        loadingMessage : "Creating Agent...",
+        dialog : false,
+        component : CreateAgent,
+        data : { },
+        endpoint : '/api/createAgent',
+        defaults : {
+          dbServerNode : tenantDBNode,
+          protocol : 'TCP',
+          agentName : 'dpagent',
+          port : '5050',
+          host : 'dpagent.example.com',
+          authUser : authUser       
+        }
+      },{
+        option : "Create DP Adapter",
+        description : "Create a Data Provisioning Adapter (requires dpserver service, and a DP Agent)",
+        loadingMessage : "Creating Adapter...",
+        dialog : false,
+        component : CreateAdapter,
+        data : { },
+        endpoint : '/api/createAdapter',
+        defaults : {
+          dbServerNode : tenantDBNode,
+          agentName : 'dpagent',
+          adapter : 'OracleLogReaderAdapter',
+          authUser : authUser       
         }
       },{
         option : "HDI Enable a Tenant DB",

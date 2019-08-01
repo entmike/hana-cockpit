@@ -57,7 +57,7 @@ router.post('/',cors(),(req,res)=>{
                 if(results[0].DISERVER==0){
                     promises.push(new Promise((resolve,reject)=>{
                         console.log(`Enabling diserver for Tenant DB ${req.body.tenantDB}...`);
-                        conn.exec(`ALTER DATABASE HXE ADD 'diserver';`, null, (err)=>{
+                        conn.exec(`ALTER DATABASE ${req.body.tenantDB} ADD 'diserver';`, null, (err)=>{
                             if(err) return reject(err);
                             console.log(`diserver added.`);
                             resolve(`diserver added.`);

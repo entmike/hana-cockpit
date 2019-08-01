@@ -21,10 +21,13 @@ module.exports = {
         app.use('/api/getconfig', require('./api/getconfig'));
         app.use('/api/saveconfig', require('./api/saveconfig'));
         app.use('/api/sql', require('./api/sql'));
+        app.use('/api/enableService', require('./api/enableService'));
         app.use('/api/enableHDI', require('./api/enableHDI'));
         app.use('/api/createContainer', require('./api/createContainer'));
         app.use('/api/dropContainer', require('./api/dropContainer'));
         app.use('/api/createUser', require('./api/createUser'));
+        app.use('/api/createAgent', require('./api/createAgent'));
+        app.use('/api/createAdapter', require('./api/createAdapter'));
         app.use('/api/resetPassword', require('./api/resetPassword'));
         app.use('/api/grantHDIRole', require('./api/grantHDIRole'));
         app.use('/api/grantRole', require('./api/grantRole'));

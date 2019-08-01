@@ -3,9 +3,7 @@
         "es6": true,
         "node": true
     },
-    "extends": [
-        "standard"
-    ],
+    "extends": [ ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
